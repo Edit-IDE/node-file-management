@@ -1,0 +1,42 @@
+{
+  "name": "@editide/file-management",
+  "version": "1.0.0",
+  "description": "Object oriented JavaScript files management helpers",
+  "main": "src/index.js",
+  "type": "module",
+  "exports": {
+    "import": "./src/index.js",
+    "require": "./lib/index.js"
+  },
+  "scripts": {
+    "test": "node example-usage.js",
+    "build": "babel src -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Edit-IDE/node-file-management.git"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "file",
+    "management"
+  ],
+  "author": "EditIDE",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Edit-IDE/node-file-management/issues"
+  },
+  "homepage": "https://github.com/Edit-IDE/node-file-management#readme",
+  "dependencies": {
+    "@editide/awesome-js-regex": "^1.0.0"
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447",
+  "devDependencies": {
+    "@babel/cli": "^7.25.7",
+    "@babel/core": "^7.25.8",
+    "@babel/preset-env": "^7.25.8",
+    "mime": "^4.0.4"
+  },
+  "browserslist": "> 0.25%, not dead"
+}
