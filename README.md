@@ -14,7 +14,7 @@ You can execute it using `npm run test`
 
 Otherwise, simply import it like so :
 ```js
-const { ServerFile, ServerFolder } = require("./model/server");
+const { ServerFile, ServerFolder } = require("@editide/file-management");
 ```
 
 You can instanciate a file object using it's exact path with `filePath`
