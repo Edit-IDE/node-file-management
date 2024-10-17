@@ -1,4 +1,4 @@
-const { closeBracket, openBracket, hasFailScriptRegex, nextConditionRegex } = require("editide/awesome-js-regex");
+const { closeBracket, openBracket, hasFailScriptRegex, nextConditionRegex } = require("@editide/awesome-js-regex");
 
 class Parser {
     constructor({
