@@ -1,15 +1,14 @@
 {
   "name": "@editide/file-management",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Object oriented JavaScript files management helpers",
   "main": "src/index.js",
-  "type": "module",
   "exports": {
     "import": "./src/index.js",
     "require": "./lib/index.js"
   },
   "scripts": {
-    "test": "node example-usage.js",
+    "test": "node example-usage.mjs",
     "build": "babel src -d lib"
   },
   "repository": {

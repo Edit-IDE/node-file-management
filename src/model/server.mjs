@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 
-import Folder from "./folder/Folder.class.js";
-import File from "./file/File.class.js";
+import Folder from "./folder/Folder.class.mjs";
+import File from "./file/File.class.mjs";
 
 class ServerFolder extends Folder {
     constructor({

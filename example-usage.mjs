@@ -6,10 +6,10 @@
 // To use this JavaScript code library, you need to import it as so :
 // ```js
 import mime from 'mime'; // ESM is require(d)
-import File from "./src/model/file/File.class.js";
-import Folder from "./src/model/folder/Folder.class.js";
-import { ServerFile, ServerFolder } from "./src/model/server.js";
-import rootPath from "./rootPath.cjs"; // Returns this project root folder's path
+import File from "./src/model/file/File.class.mjs";
+import Folder from "./src/model/folder/Folder.class.mjs";
+import { ServerFile, ServerFolder } from "./src/model/server.mjs";
+import rootPath from "./rootPath.mjs"; // Returns this project root folder's path
 // ```
 // Free to see each file path content.
 
@@ -101,6 +101,8 @@ console.log('Now working with this project root folder : \n\n%o\n', rootFolder);
 
 // but it does have childrens instead, like files
 console.log("Root folder's files : %o\n", rootFolder.getAllFiles());
+
+console.log("Calculating this project folder size, this may take some time as node_module is important....");
 console.log("Root stats : %o\n", rootFolder.getStats());
 
 // other folders

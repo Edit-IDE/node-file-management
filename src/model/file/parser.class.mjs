@@ -1,4 +1,4 @@
-const { closeBracket, openBracket, hasFailScriptRegex, nextConditionRegex } = require("@editide/awesome-js-regex");
+import { closeBracket, openBracket, hasFailScriptRegex, nextConditionRegex } from "@editide/awesome-js-regex";
 
 class Parser {
     constructor({
@@ -105,4 +105,4 @@ class Parser {
     
 }
 
-module.exports = Parser;
+export default Parser;
