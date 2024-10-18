@@ -1,6 +1,6 @@
 {
   "name": "@editide/file-management",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Object oriented JavaScript files management helpers",
   "main": "src/index.js",
   "exports": {
