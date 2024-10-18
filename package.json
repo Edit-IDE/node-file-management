@@ -1,6 +1,6 @@
 {
   "name": "@editide/file-management",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Object oriented JavaScript files management helpers",
   "main": "src/index.js",
   "exports": {
@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "node example-usage.mjs",
-    "build": "babel src -d lib"
+    "build": "babel src -d lib",
+    "publish": "npm publish --access public "
   },
   "repository": {
     "type": "git",
