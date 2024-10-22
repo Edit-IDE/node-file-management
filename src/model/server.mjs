@@ -215,7 +215,7 @@ class ServerFolder extends Folder {
                 const fileLastModifDate = new Date(fileStats.mtime);
 
                 return {
-                    bytes_size: prevStatsValue.bytes_size + fileStats.size,
+                    size_in_bytes: prevStatsValue.size_in_bytes + fileStats.size,
                     oldest_modification_date: (
                         prevStatsValue.oldest_modification_date > fileLastModifDate ?
                             fileLastModifDate
@@ -230,7 +230,7 @@ class ServerFolder extends Folder {
                     )
                 }
             }, {
-                bytes_size: 0,
+                size_in_bytes: 0,
                 oldest_modification_date: new Date(Date.now()),
                 last_modification_date: new Date("1970-01-01"),
             }
@@ -367,7 +367,7 @@ class ServerFile extends File {
         });
 
         this.stats = {}
-        this.bytes_size = 0;
+        this.size_in_bytes = 0;
         this.lastModifiedDate = null;
         this.creationDate = null;
 
@@ -375,7 +375,7 @@ class ServerFile extends File {
             this.read();
             
             this.stats = this.getStats();
-            this.bytes_size = this.stats.size;
+            this.size_in_bytes = this.stats.size;
             this.lastModifiedDate = this.stats.mtime;
             this.creationDoate = this.stats.birthtime;
         }
@@ -467,7 +467,7 @@ class ServerFile extends File {
             const filePath = this.getFullPath();
             fs.unlinkSync(filePath);
             this.stats = {}
-            this.bytes_size = 0;
+            this.size_in_bytes = 0;
             this.lastModifiedDate = null;
             this.creationDate = null;
         } else {
@@ -481,7 +481,7 @@ class ServerFile extends File {
      */
     getStats() {
         this.stats = fs.statSync(this.getFullPath());
-        this.bytes_size = this.stats.size;
+        this.size_in_bytes = this.stats.size;
         this.lastModifiedDate = this.stats.mtime;
         this.creationDoate = this.stats.birthtime;
         return this.stats;
