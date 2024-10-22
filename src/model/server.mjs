@@ -377,7 +377,7 @@ class ServerFile extends File {
             this.stats = this.getStats();
             this.size_in_bytes = this.stats.size;
             this.lastModifiedDate = this.stats.mtime;
-            this.creationDoate = this.stats.birthtime;
+            this.creationDate = this.stats.birthtime;
         }
         
         if(onChange && typeof onChange === "function") {
@@ -483,7 +483,7 @@ class ServerFile extends File {
         this.stats = fs.statSync(this.getFullPath());
         this.size_in_bytes = this.stats.size;
         this.lastModifiedDate = this.stats.mtime;
-        this.creationDoate = this.stats.birthtime;
+        this.creationDate = this.stats.birthtime;
         return this.stats;
     }
 
