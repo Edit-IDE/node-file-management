@@ -8,7 +8,7 @@ npm install @editide/file-management
 
 ## Example usage
 
-Watch the [example-usage](./example-usage.js) script.
+Watch the [example-usage](./example-usage.mjs) script.
 
 You can execute it using `npm run test`
 
