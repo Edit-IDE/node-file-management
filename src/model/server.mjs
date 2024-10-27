@@ -108,6 +108,7 @@ class ServerFolder extends Folder {
 
                 // And add them to the result list.
                 result = result.concat( filesInNewDirectory );
+                currentPath = currentPath.replace(directory + "/", "");
             }
         );
 
@@ -210,10 +211,11 @@ class ServerFolder extends Folder {
     */
     getStats() {
         return this.getAllFilesWithContent().reduce(
-            (prevStatsValue, currentFile) => {
+            (prevStatsValue, currentFile) => { // Function executed for each file
                 const fileStats = currentFile.getStats();
                 const fileLastModifDate = new Date(fileStats.mtime);
 
+                // We do add data size, and search for older or more recent file.
                 return {
                     size_in_bytes: prevStatsValue.size_in_bytes + fileStats.size,
                     oldest_modification_date: (
@@ -229,7 +231,7 @@ class ServerFolder extends Folder {
                             prevStatsValue.last_modification_date
                     )
                 }
-            }, {
+            }, { // Intitial Reduce data
                 size_in_bytes: 0,
                 oldest_modification_date: new Date(Date.now()),
                 last_modification_date: new Date("1970-01-01"),
@@ -534,7 +536,7 @@ class ServerFile extends File {
         return new ServerFile({ ...this, filePath: newPath }).create();
     }
 }
-  
+
 export {
     ServerFile,
     ServerFolder
