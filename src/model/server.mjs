@@ -226,7 +226,7 @@ class ServerFolder extends Folder {
                 let pending = files.length;
     
                 if (pending === 0) {
-                    return resolve({ size: 0, oldest: null, newest: null });
+                    return resolve({ size_in_bytes: 0, oldest_modification_date: null, last_modification_date: null });
                 }
     
                 files.forEach((file) => {
@@ -246,7 +246,7 @@ class ServerFolder extends Folder {
                                     newestDate = subDirDetails.mtime > newestDate ? subDirDetails.mtime : newestDate;
     
                                     if (--pending === 0) {
-                                        resolve({ size: totalSize, oldest: oldestDate, newest: newestDate });
+                                        resolve({ size_in_bytes: totalSize, oldest_modification_date: oldestDate, last_modification_date: newestDate });
                                     }
                                 })
                                 .catch(reject);
@@ -257,7 +257,7 @@ class ServerFolder extends Folder {
                             newestDate = stats.mtime > newestDate ? stats.mtime : newestDate;
     
                             if (--pending === 0) {
-                                resolve({ size: totalSize, oldest: oldestDate, newest: newestDate });
+                                resolve({ size_in_bytes: totalSize, oldest_modification_date: oldestDate, last_modification_date: newestDate });
                             }
                         }
                     });
