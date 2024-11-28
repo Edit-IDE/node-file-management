@@ -221,7 +221,7 @@ class ServerFolder extends Folder {
                 }
     
                 let totalSize = 0;
-                let oldestDate = new Date();
+                let oldestDate = new Date(Date.now());
                 let newestDate = new Date(0); // Epoch start: Jan 1, 1970
                 let pending = files.length;
     
@@ -241,9 +241,9 @@ class ServerFolder extends Folder {
                             // Recurse into subdirectory
                             this.getStats(filePath)
                                 .then((subDirDetails) => {
-                                    totalSize += subDirDetails.size;
-                                    oldestDate = subDirDetails.mtime < oldestDate ? subDirDetails.mtime : oldestDate;
-                                    newestDate = subDirDetails.mtime > newestDate ? subDirDetails.mtime : newestDate;
+                                    totalSize += subDirDetails.size_in_bytes;
+                                    oldestDate = subDirDetails.oldest_modification_date < oldestDate || new Date() ? subDirDetails.oldest_modification_date : oldestDate;
+                                    newestDate = subDirDetails.last_modification_date > newestDate ? subDirDetails.last_modification_date : newestDate;
     
                                     if (--pending === 0) {
                                         resolve({ size_in_bytes: totalSize, oldest_modification_date: oldestDate, last_modification_date: newestDate });
@@ -252,6 +252,7 @@ class ServerFolder extends Folder {
                                 .catch(reject);
                         } else {
                             // Update total size and modification dates
+                            
                             totalSize += stats.size;
                             oldestDate = stats.mtime < oldestDate ? stats.mtime : oldestDate;
                             newestDate = stats.mtime > newestDate ? stats.mtime : newestDate;
