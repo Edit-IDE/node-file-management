@@ -214,19 +214,23 @@ class ServerFolder extends Folder {
             folderPath = this.getFullPath();
         }
         return new Promise((resolve, reject) => {
+            
             fs.readdir(folderPath, (err, files) => {
                 if (err) {
                     return reject(err);
                 }
     
                 let totalSize = 0;
+                let oldestDate = new Date();
+                let newestDate = new Date(0); // Epoch start: Jan 1, 1970
+                let pending = files.length;
     
-                const calculateSize = (index) => {
-                    if (index === files.length) {
-                        return resolve(totalSize);
-                    }
+                if (pending === 0) {
+                    return resolve({ size: 0, oldest: null, newest: null });
+                }
     
-                    const filePath = path.join(folderPath, files[index]);
+                files.forEach((file) => {
+                    const filePath = path.join(folderPath, file);
     
                     fs.stat(filePath, (err, stats) => {
                         if (err) {
@@ -234,22 +238,32 @@ class ServerFolder extends Folder {
                         }
     
                         if (stats.isDirectory()) {
+                            // Recurse into subdirectory
                             this.getStats(filePath)
-                                .then((size) => {
-                                    totalSize += size;
-                                    calculateSize(index + 1);
+                                .then((subDirDetails) => {
+                                    totalSize += subDirDetails.size;
+                                    oldestDate = subDirDetails.mtime < oldestDate ? subDirDetails.mtime : oldestDate;
+                                    newestDate = subDirDetails.mtime > newestDate ? subDirDetails.mtime : newestDate;
+    
+                                    if (--pending === 0) {
+                                        resolve({ size: totalSize, oldest: oldestDate, newest: newestDate });
+                                    }
                                 })
                                 .catch(reject);
                         } else {
+                            // Update total size and modification dates
                             totalSize += stats.size;
-                            calculateSize(index + 1);
+                            oldestDate = stats.mtime < oldestDate ? stats.mtime : oldestDate;
+                            newestDate = stats.mtime > newestDate ? stats.mtime : newestDate;
+    
+                            if (--pending === 0) {
+                                resolve({ size: totalSize, oldest: oldestDate, newest: newestDate });
+                            }
                         }
                     });
-                };
-    
-                calculateSize(0);
+                });
             });
-        });
+        })
     }
 
     /**

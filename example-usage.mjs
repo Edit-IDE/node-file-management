@@ -103,7 +103,7 @@ console.log('Now working with this project root folder : \n\n%o\n', rootFolder);
 console.log("Root folder's files : %o\n", rootFolder.getAllFiles());
 
 console.log("Calculating this project folder size, this may take some time as node_module is important....");
-console.log("Root stats : %o\n", await rootFolder.getStats());
+console.log("Root stats : %o\n", (await rootFolder.getStats()));
 
 // other folders
 console.log("Root folder's subfolders : %o\n", rootFolder.getSubFolders());
