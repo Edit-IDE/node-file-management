@@ -209,34 +209,47 @@ class ServerFolder extends Folder {
      * @returns a cumulated object build from node's `fs.Stats`
      * Like size
     */
-    getStats() {
-        return this.getAllFilesWithContent().reduce(
-            (prevStatsValue, currentFile) => { // Function executed for each file
-                const fileStats = currentFile.getStats();
-                const fileLastModifDate = new Date(fileStats.mtime);
-
-                // We do add data size, and search for older or more recent file.
-                return {
-                    size_in_bytes: prevStatsValue.size_in_bytes + fileStats.size,
-                    oldest_modification_date: (
-                        prevStatsValue.oldest_modification_date > fileLastModifDate ?
-                            fileLastModifDate
-                        :
-                            prevStatsValue.oldest_modification_date
-                    ),
-                    last_modification_date: (
-                        prevStatsValue.last_modification_date < fileLastModifDate ?
-                            fileLastModifDate
-                        :
-                            prevStatsValue.last_modification_date
-                    )
+    getStats(folderPath) {
+        if(!folderPath) {
+            folderPath = this.getFullPath();
+        }
+        return new Promise((resolve, reject) => {
+            fs.readdir(folderPath, (err, files) => {
+                if (err) {
+                    return reject(err);
                 }
-            }, { // Intitial Reduce data
-                size_in_bytes: 0,
-                oldest_modification_date: new Date(Date.now()),
-                last_modification_date: new Date("1970-01-01"),
-            }
-        )
+    
+                let totalSize = 0;
+    
+                const calculateSize = (index) => {
+                    if (index === files.length) {
+                        return resolve(totalSize);
+                    }
+    
+                    const filePath = path.join(folderPath, files[index]);
+    
+                    fs.stat(filePath, (err, stats) => {
+                        if (err) {
+                            return reject(err);
+                        }
+    
+                        if (stats.isDirectory()) {
+                            this.getStats(filePath)
+                                .then((size) => {
+                                    totalSize += size;
+                                    calculateSize(index + 1);
+                                })
+                                .catch(reject);
+                        } else {
+                            totalSize += stats.size;
+                            calculateSize(index + 1);
+                        }
+                    });
+                };
+    
+                calculateSize(0);
+            });
+        });
     }
 
     /**
