@@ -165,7 +165,7 @@ class ServerFolder extends Folder {
      * @returns {File} The first file which content's match the regex
      */
     getFileWithContent(regex) {
-        return getAllFilesWithContent(regex, true);
+        return this.getAllFilesWithContent(regex, true);
     }
 
     /**
