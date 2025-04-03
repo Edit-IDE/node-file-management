@@ -423,7 +423,7 @@ class ServerFile extends File {
     }
 
     /**
-     * @returns {Buffer|fs.ReadStream} File content on disk
+     * @returns {ServerFile} File content on disk
      */
     read() {
         if (this.exists()) {
@@ -446,6 +446,9 @@ class ServerFile extends File {
         return this;
     }
 
+    /**
+     * @returns {Buffer|fs.ReadStream} The file content as a Buffer or a ReadStream if the file is too big.
+     */
     getContent() {
         return this.read().content;
     }
