@@ -401,9 +401,7 @@ class ServerFile extends File {
         this.lastModifiedDate = null;
         this.creationDate = null;
 
-        if(!content && this.exists()) {
-            this.read();
-            
+        if(this.exists()) {
             this.stats = this.getStats();
             this.size_in_bytes = this.stats.size;
             this.lastModifiedDate = this.stats.mtime;
@@ -425,21 +423,31 @@ class ServerFile extends File {
     }
 
     /**
-     * @returns {Buffer} File content on disk
+     * @returns {Buffer|fs.ReadStream} File content on disk
      */
     read() {
         if (this.exists()) {
-            this.setContent(
-                fs.readFileSync(
-                    this.getFullPath()
-                )
-            );
-            this.getStats();
+            if(this.size_in_bytes < 2147483648) { // 2GB
+                this.setContent(
+                    fs.readFileSync(
+                        this.getFullPath()
+                    )
+                );
+            } else {
+                this.setContent(
+                    fs.createReadStream( this.getFullPath() )
+                );
+            }
         } else {
             console.error( "The " + this.extension +
                 " file named " + this.name + " has not been found at path " + this.getFullPath()
             );
         }
+        return this;
+    }
+
+    getContent() {
+        return this.read().content;
     }
 
     /**
@@ -553,6 +561,10 @@ class ServerFile extends File {
         return new ServerFile({
             filePath: newPath
         });
+    }
+
+    searchAndReplace(regex, replaceValue) {
+        this.content.replaceAll(regex, replaceValue);
     }
 
     /**
