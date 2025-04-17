@@ -200,9 +200,14 @@ class ServerFolder extends Folder {
 
     /** @returns {boolean} */
     exists() {
-        return fs.existsSync(
+        const exists = fs.existsSync(
             this.getFullPath()
         );
+        if(!exists) {
+            return false;
+        } else {
+            return fs.lstatSync(this.getFullPath()).isDirectory();
+        }
     }
 
     /** 
